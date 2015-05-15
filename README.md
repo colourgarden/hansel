@@ -1,8 +1,8 @@
 # Hansel
-## Responsive breadcrumbs with Sass
 
 > Hansel, however, had not eaten his bread, and as he walked through the trees, he left a trail of crumbs behind him to mark the way.
 
+## Responsive breadcrumbs with Sass
 Breadcrumb component that works across all screen widths.
 
 ### Browser support
@@ -15,7 +15,7 @@ Breadcrumb component that works across all screen widths.
 - Android Browser
 - Opera Mobile 24+
 
-### Future
+### Roadmap
 - Tidy Sass
 - Add polyfill for IE8+ pointer-event usage
 - Remove jQuery and use vanilla JS
