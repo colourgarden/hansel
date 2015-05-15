@@ -1,0 +1,320 @@
+/*! Hansel | MIT License | github.com/colourgarden/hansel */
+
+$hansel-namespace:        'hansel';
+
+$hansel-breakpoint:       600px;
+
+$hansel-max-items:        6;
+$hansel-max-item-width:   200px;
+
+$hansel-text-color:       #333;
+
+$hansel-link-height:      40px;
+$hansel-link-pad:         15px;
+
+$hansel-link-bg:          #b7b7b7; //#331c35;
+$hansel-link-color:       $hansel-text-color;
+$hansel-active-bg:        #225689;
+$hansel-active-color:     #fff;
+$hansel-hover-bg:         $hansel-link-bg;
+
+$hansel-underline:        false;
+
+$hansel-radius:           4px;
+
+$hansel-arrows:           true;
+$hansel-arrow-size:       20px; // Should be half height for a smoothly rendered arrow
+$hansel-arrow-border:     rgba(#fff,0.4);
+
+$hansel-gradate:          2.5; // percentage to grade each item by
+
+$hansel-trans-final:    false;
+
+
+.#{$hansel-namespace}{
+  position: relative;
+  overflow-x: scroll;
+
+  // Hide scrollbars
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar{ width: 0 !important; }
+
+  // Micro-clearfix (css-101.org/articles/clearfix/latest-new-clearfix-so-far.php)
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+
+  ol{
+    display: table;
+    // width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  li{
+    display: table-cell;
+    // min-width: 100px;
+    color: $hansel-text-color;
+    transition: background-color .1s ease;
+
+    @if ($hansel-gradate){
+      
+      @for $item from 1 through $hansel-max-items{
+        &:nth-child(#{$item}){
+          background-color: lighten($hansel-link-bg, $item*$hansel-gradate);
+        }
+      }
+
+    } @else {
+      background-color: $hansel-link-bg;
+    }
+
+    &:hover,
+    &:active,
+    &:focus{
+      background-color: $hansel-hover-bg;
+      color: $hansel-active-color;
+    }
+  }
+
+  a{
+    position: relative;
+    display: block;
+    height: $hansel-link-height;
+    line-height: $hansel-link-height;
+    padding: 0 $hansel-link-pad;
+    text-align: center;
+    outline: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    &,
+    &:hover,
+    &:active,
+    &:focus{
+      color: $hansel-link-color;
+      
+      @if not ($hansel-underline){
+        text-decoration: none;
+      }
+    }
+  }
+
+  li:hover,
+  li:active,
+  li:focus{
+    a{
+      &:after{
+        border-left-color: $hansel-hover-bg;
+      }
+    }
+  }
+
+  li:first-child{
+    @if($hansel-radius){
+      border-radius: $hansel-radius $hansel-radius 0 0;
+
+      @media screen and (min-width: $hansel-breakpoint + 1){
+        border-radius: $hansel-radius 0 0 $hansel-radius;
+      }
+    }
+  }
+
+  // Final, active item
+  li:last-child{
+    pointer-events: none;
+    cursor: default;
+
+    // Hide arrows and avoid width overflow
+    a{
+      &:before, &:after{
+        display: none;
+      }
+    }
+
+    @if($hansel-radius){
+      border-radius: 0 0 $hansel-radius $hansel-radius;
+
+      @media screen and (min-width: $hansel-breakpoint + 1){
+        border-radius: 0 $hansel-radius $hansel-radius 0;
+      }
+    }
+
+    @if ($hansel-trans-final){
+      background-color: transparent;
+
+      &, > a{
+        color: inherit;
+      }
+    } @else {
+      background-color: $hansel-active-bg;
+      
+      &, > a{
+        color: $hansel-active-color;
+      }
+    }
+
+  }
+    
+  @media screen and (max-width: $hansel-breakpoint){
+    
+    ol{
+      width: 100%;
+    }
+
+    a{
+      text-align: left;
+    }
+
+    li:last-child{
+      padding-left: $hansel-link-pad;
+
+      @if($hansel-radius){
+        border-radius: $hansel-radius;
+      }
+
+      &:before{
+        content: '+';
+        position: absolute;
+        left: $hansel-link-pad;
+        height: $hansel-link-height;
+        line-height: $hansel-link-height;
+      }
+    }
+
+    &.active li:last-child{
+      
+      @if($hansel-radius){
+        border-radius: 0 0 $hansel-radius $hansel-radius;
+      }
+
+      &:before{
+        content: '-';
+      }
+    }
+
+    li:not(:last-child){
+      display: none;
+    }
+
+    &.active li{
+      display: block;
+    }
+
+    // li:not(:last-child){
+
+    //   // Hide (https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css#L124-L149)
+    //   a{
+    //     position: absolute;
+    //     width: 1px;
+    //     height: 1px;
+    //     padding: 0;
+    //     margin: -1px;
+    //     overflow: hidden;
+    //     border: 0;
+    //     clip: rect(0 0 0 0);
+
+    //     // Still visible to screen readers on focus
+    //     &:active,
+    //     &:focus{
+    //       position: static;
+    //       width: auto;
+    //       height: auto;
+    //       margin: 0;
+    //       overflow: visible;
+    //       clip: auto;
+    //     }
+    //   }
+    // }
+
+    li:last-child{
+      pointer-events: auto;
+      cursor: pointer;
+    }
+  }
+
+  @media screen and (min-width: $hansel-breakpoint + 1){
+
+    a{
+      position: relative;
+      display: block;
+      max-width: $hansel-max-item-width;
+      height: $hansel-link-height;
+      line-height: $hansel-link-height;
+      padding: 0 $hansel-link-pad;
+      text-align: center;
+      // overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      &,
+      &:hover,
+      &:active,
+      &:focus{
+        color: $hansel-link-color;
+        
+        @if not ($hansel-underline){
+          text-decoration: none;
+        }
+      }
+
+      @if ($hansel-arrows){
+        &:before, &:after{
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 0;
+          top: 0;
+          bottom: 0;
+          border: solid transparent;
+          border-width: $hansel-link-height/2 $hansel-arrow-size;
+          transition: border-color .1s ease;
+          pointer-events: none;
+        }
+        &:after{
+          left: 100%;
+          border-left-color: $hansel-link-bg;
+        }
+        @if($hansel-arrow-border){
+          &:before{
+            left: calc(100% + 1px);
+            border-left-color: $hansel-arrow-border;
+          }
+        }
+      }
+    }
+
+    li{
+      @if ($hansel-gradate){
+        
+        @for $item from 1 through $hansel-max-items{
+          &:nth-child(#{$item}) a:after{
+            border-left-color: lighten($hansel-link-bg, $item*$hansel-gradate);
+          }
+        }
+
+      }
+    }
+
+    li:hover,
+    li:active,
+    li:focus{
+      a{
+        &:after{
+          border-left-color: $hansel-hover-bg;
+        }
+      }
+    }
+
+    @if ($hansel-arrows){
+      li + li a{
+        padding-left: $hansel-link-pad + $hansel-arrow-size;
+      }
+    }
+
+  }
+}

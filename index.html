@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Hansel</title>
+  <meta name="description" content="">
+  <link rel="canonical" href="">
+  
+  <link href='http://fonts.googleapis.com/css?family=Halant:300,400,600,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="hansel.css">
+  <style>
+    body{
+      margin: 20px;
+      font-family: 'Proxima Nova', sans-serif;
+      font-size: 0.875em;
+      font-weight: 400;
+      color: #222;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-font-smoothing:antialiased;
+      text-rendering: optimizelegibility;
+    }
+
+    h1{
+      margin-top: 0;
+      margin-bottom: 0.8em;
+      font-family: 'Halant', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+    }
+  </style>
+</head>
+<body>
+  
+  <h1>Hansel</h1>
+
+  <nav class="hansel" data-breadcrumb>
+    <ol>
+      <li><a href="">Home</a></li>
+      <li><a href="">Store</a></li>
+      <li><a href="">Products</a></li>
+      <li><a href="">Snow</a></li>
+      <li><a href="">Snowboarding</a></li>
+      <li><a href="">Accessories</a></li>
+      <li><a href="">Gloves</a></li>
+    </ol>
+  </nav>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+  $(function(){
+    var bc = $('[data-breadcrumb]'),
+        list = bc.find('ol');
+
+    // bc.prepend('<li><a href="">+</a></li>');
+    list.find('li:last-child a').on('click', function(e){
+      e.preventDefault();
+      bc.toggleClass('active');
+      console.log('tom');
+    });
+  });
+</script>
+  
+</body>
+</html>
